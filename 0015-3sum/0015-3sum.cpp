@@ -2,63 +2,39 @@ class Solution {
 public:
     vector<vector<int>> threeSum(vector<int>& nums) {
         int n=nums.size();
+        vector<vector<int>>res;
+        if(n<3){
+            return res;
+        }
         sort(nums.begin(),nums.end());
-        vector<int>v;
-        vector<vector<int>>ans;
-        if(n<3)
-        {
-            return ans;
-        }
-        if(nums[0]>0)
-        {
-            return ans;
-        }
-
-        for(int i=0;i<n;i++)
-        {
-            if(nums[i]>0)
+        if(nums[0]>0)return res;
+        for(int i=0;i<n;i++){
+            if(nums[i]>0){break;}
+            if(i>0 and nums[i]==nums[i-1]){continue;}
+            int front=i+1,back=n-1;
+            while(front<back)
             {
-                break;
-            }
-            if(i>0 && nums[i]==nums[i-1])
-            {
-                continue;
-            }
-            int low=i+1,high=n-1,sum=0;
-
-            while(low<high)
-            {
-                sum=nums[i]+nums[low]+nums[high];
-                if(sum>0)
-                {
-                    high--;
+                int sum=nums[i]+nums[front]+nums[back];
+                if(sum>0){
+                    back--;
                 }
-                else if(sum<0)
-                {
-                    low++;
-                }
-                else
-                {
-                    v.push_back(nums[i]);
-                    v.push_back(nums[low]);
-                    v.push_back(nums[high]);
-                    ans.push_back(v);
-                    v.clear();
-                    int lastlowoccurence=nums[low],lasthighoccurence=nums[high];
-                    while(low<high && nums[low]==lastlowoccurence)
-                    {
-                        low++;
+                else if(sum<0){
+                    front++;
+                }else{
+                    vector<int>trp={nums[i],nums[front],nums[back]};
+                    res.push_back(trp);
+                    int last_front_occurence=nums[front];
+                    int last_back_occurence=nums[back];
+                    while(front<back && nums[front]==last_front_occurence){
+                        front++;
                     }
-                    while(low<high && nums[high]==lasthighoccurence)
-                    {
-                        high--;
+
+                    while(front<back && nums[back]==last_back_occurence){
+                        back--;
                     }
                 }
             }
-            
-
         }
-        return ans;
-        
+        return res;
     }
 };
