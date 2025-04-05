@@ -2,13 +2,25 @@ class Solution {
 public:
     int majorityElement(vector<int>& nums) {
         int n=nums.size();
-        for(int i=0;i<n;i++){
-            int count=1;
-            for(int j=i+1;j<n;j++){
-                if(nums[i]==nums[j])count++;
+        int res=0,count=1;
+        for(int i=1;i<n;i++){
+            if(nums[res]==nums[i]){
+                count++;
             }
-            if(count>n/2)return nums[i];
+            else{
+                count--;
+            }
+            if(count==0){
+                res=i;
+                count=1;
+            }
         }
-        return 0;
+        //if majority element not exist always 
+        count=0;
+        for(int i=0;i<n;i++){
+            if(nums[res]==nums[i])count++;
+        }
+        if(count<=n/2)return -1;
+        return nums[res];
     }
 };
